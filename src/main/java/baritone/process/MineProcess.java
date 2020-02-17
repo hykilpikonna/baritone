@@ -359,11 +359,14 @@ public final class MineProcess extends BaritoneProcessHelper implements IMinePro
         knownOreLocations.addAll(dropped);
         BlockPos playerFeet = ctx.playerFeet();
         BlockStateInterface bsi = new BlockStateInterface(ctx);
-        int searchDist = 10;
+
+        // Hyritone start - #2 Add settings for search distances
         double fakedBlockReachDistance = 20; // at least 10 * sqrt(3) with some extra space to account for positioning within the block
-        for (int x = playerFeet.getX() - searchDist; x <= playerFeet.getX() + searchDist; x++) {
-            for (int y = playerFeet.getY() - searchDist; y <= playerFeet.getY() + searchDist; y++) {
-                for (int z = playerFeet.getZ() - searchDist; z <= playerFeet.getZ() + searchDist; z++) {
+
+        for (int x = playerFeet.getX() - Baritone.settings().searchDistXBack.value; x <= playerFeet.getX() + Baritone.settings().searchDistXFront.value; x++) {
+            for (int y = playerFeet.getY() - Baritone.settings().searchDistDown.value; y <= playerFeet.getY() + Baritone.settings().searchDistUp.value; y++) {
+                for (int z = playerFeet.getZ() - Baritone.settings().searchDistZBack.value; z <= playerFeet.getZ() + Baritone.settings().searchDistZFront.value; z++) {
+
                     // crucial to only add blocks we can see because otherwise this
                     // is an x-ray and it'll get caught
                     if (filter.has(bsi.get0(x, y, z))) {
@@ -375,6 +378,8 @@ public final class MineProcess extends BaritoneProcessHelper implements IMinePro
                 }
             }
         }
+        // Hyritone end
+
         knownOreLocations = prune(new CalculationContext(baritone), knownOreLocations, filter, ORE_LOCATIONS_COUNT, blacklist, dropped);
     }
 
