@@ -830,15 +830,6 @@ public final class Settings {
      */
     public final Setting<Boolean> mineScanDroppedItems = new Setting<>(true);
 
-    // Hyritone start - #2 Add settings for search distances.
-    public final Setting<Integer> searchDistUp = new Setting<>(10);
-    public final Setting<Integer> searchDistDown = new Setting<>(10);
-    public final Setting<Integer> searchDistXFront = new Setting<>(10);
-    public final Setting<Integer> searchDistXBack = new Setting<>(10);
-    public final Setting<Integer> searchDistZFront = new Setting<>(10);
-    public final Setting<Integer> searchDistZBack = new Setting<>(10);
-    // Hyritone end
-
     /**
      * While mining, wait this number of milliseconds after mining an ore to see if it will drop an item
      * instead of immediately going onto the next one
