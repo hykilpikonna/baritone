@@ -37,7 +37,7 @@ public class MiscUtils
     {
         if (mc.player == null) return;
 
-        mc.player.sendMessage(new StringTextComponent(text));
+        mc.player.sendMessage(new StringTextComponent("§3§l[§bHyritone§3§l] §r" + text));
         System.out.println("Log: " + text);
     }
 
