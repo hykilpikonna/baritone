@@ -32,6 +32,7 @@ import baritone.utils.*;
 import baritone.command.manager.CommandManager;
 import baritone.utils.player.PrimaryPlayerContext;
 import net.minecraft.client.Minecraft;
+import org.hydev.hyritone.Hyritone;
 
 import java.io.File;
 import java.io.IOException;
@@ -87,6 +88,8 @@ public class Baritone implements IBaritone {
 
     public BlockStateInterface bsi;
 
+    public Hyritone hyritone;
+
     Baritone() {
         this.gameEventHandler = new GameEventHandler(this);
 
@@ -121,6 +124,9 @@ public class Baritone implements IBaritone {
         if (BaritoneAutoTest.ENABLE_AUTO_TEST) {
             this.gameEventHandler.registerEventListener(BaritoneAutoTest.INSTANCE);
         }
+
+        // Hyritone
+        this.hyritone = new Hyritone(this);
     }
 
     @Override
