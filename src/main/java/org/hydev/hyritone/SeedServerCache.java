@@ -81,22 +81,25 @@ public class SeedServerCache extends Behavior
     @Override
     public void onTick(TickEvent event)
     {
-        if (!enabled || updating) return;
+        if (updating) return;
 
-        BetterBlockPos feet = new BetterBlockPos(mc.player.getPositionVec().x, mc.player.getPositionVec().y + 0.1251, mc.player.getPositionVec().z);
+        // If not enabled, preload the chunks
+        if (!enabled)
+        {
+            // Tell the server to load chunks every 20 seconds (20 * 20 = 400 ticks)
+            ticks ++;
 
+            if (ticks > 400)
+            {
+                ticks = 0;
+                new Thread(this::loadChunks).start();
+            }
+        }
+
+        // Update cache
         if (cacheLocation == null)
         {
             new Thread(this::updateCache).start();
-        }
-
-        // Tell the server to load chunks every 20 seconds (20 * 20 = 400 ticks)
-        ticks ++;
-
-        if (ticks > 400)
-        {
-            ticks = 0;
-            new Thread(this::loadChunks).start();
         }
     }
 
