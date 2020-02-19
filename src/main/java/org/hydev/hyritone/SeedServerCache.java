@@ -41,6 +41,7 @@ import java.util.List;
 
 import static baritone.api.utils.Helper.mc;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
 import static org.hydev.hyritone.MiscUtils.debug;
 
 /**
@@ -152,16 +153,16 @@ public class SeedServerCache extends Behavior
         {
             ArrayList<BlockPos> blocks = new Gson().fromJson(IOUtils.toString(response.getEntity().getContent(), UTF_8), blocksType);
 
+            debug("Removing air...");
+
             // Clear unwanted blocks
             blocks.forEach(block ->
             {
                 // Exited
                 if (mc.world == null) return;
 
-                debug("Removing air...");
-
                 // Only add it if it is not air in the client world
-                if (!mc.world.getBlockState(block).isAir()) cacheBlocks.add(block);
+                cacheBlocks = blocks.stream().filter(b -> !mc.world.getBlockState(b).isAir()).collect(toList());
             });
         }
         catch (IOException e)
