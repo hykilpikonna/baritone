@@ -830,6 +830,13 @@ public final class Settings {
      */
     public final Setting<Boolean> mineScanDroppedItems = new Setting<>(true);
 
+    // Hyritone start
+    /**
+     * Detect ore locations with a separate world seed.
+     */
+    public final Setting<Boolean> mineWithSeed = new Setting<>(false);
+    // Hyritone end
+
     /**
      * While mining, wait this number of milliseconds after mining an ore to see if it will drop an item
      * instead of immediately going onto the next one
