@@ -26,6 +26,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static org.hydev.hyritone.MiscUtils.print;
+
 /**
  * TODO: Write a description for this class!
  * <p>
@@ -45,7 +47,14 @@ public class TestCommand extends Command
     @Override
     public void execute(String label, IArgConsumer args) throws CommandException
     {
-        Hyritone.seedServerCache.enabled = !Hyritone.seedServerCache.enabled;
+        if (Hyritone.seedServerCache.enabled = !Hyritone.seedServerCache.enabled)
+        {
+            print("Seed xray enabled");
+        }
+        else
+        {
+            print("Seed xray disabled");
+        }
     }
 
     @Override
