@@ -19,6 +19,7 @@ package baritone.command.defaults;
 
 import baritone.api.IBaritone;
 import baritone.api.command.ICommand;
+import org.hydev.hyritone.TestCommand;
 
 import java.util.*;
 
@@ -64,7 +65,10 @@ public final class DefaultCommands {
                 new WaypointsCommand(baritone),
                 new CommandAlias(baritone, "sethome", "Sets your home waypoint", "waypoints save home"),
                 new CommandAlias(baritone, "home", "Set goal to your home waypoint", "waypoints goal home"),
-                new SelCommand(baritone)
+                new SelCommand(baritone),
+
+                // Hyritone
+                new TestCommand(baritone)
         ));
         ExecutionControlCommands prc = new ExecutionControlCommands(baritone);
         commands.add(prc.pauseCommand);
