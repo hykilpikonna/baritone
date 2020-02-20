@@ -17,6 +17,7 @@
 
 package org.hydev.hyritone;
 
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 
 import static baritone.api.utils.Helper.mc;
@@ -44,5 +45,16 @@ public class MiscUtils
     public static void debug(String text)
     {
         print("§8[§7Debug§8]§7 " + text);
+    }
+
+    /**
+     * Get an identifier for a block pos that's unique for each xyz
+     *
+     * @param pos Block position
+     * @return Stringify
+     */
+    public static String posId(BlockPos pos)
+    {
+        return String.format("[%s,%s,%s]", pos.getX(), pos.getY(), pos.getZ());
     }
 }

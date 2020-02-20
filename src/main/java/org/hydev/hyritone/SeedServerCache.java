@@ -47,6 +47,7 @@ import static baritone.api.utils.Helper.mc;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static org.hydev.hyritone.MiscUtils.debug;
+import static org.hydev.hyritone.MiscUtils.posId;
 
 /**
  * TODO: Write a description for this class!
@@ -141,7 +142,7 @@ public class SeedServerCache extends Behavior
 
             // Update blocks map
             Map<String, BlockState> map = new HashMap<>();
-            cacheBlocks.forEach(b -> map.put(b.toString(), Blocks.DIAMOND_ORE.getDefaultState()));
+            cacheBlocks.forEach(b -> map.put(posId(b), Blocks.DIAMOND_ORE.getDefaultState()));
             blocksMap = map;
 
             debug("Found " + cacheBlocks.size() + " valid ores.");
@@ -170,7 +171,7 @@ public class SeedServerCache extends Behavior
         if (!cacheBlocks.removeIf(b -> b.equals(pos))) return;
 
         // Remove block from map
-        blocksMap.remove(pos.toString());
+        blocksMap.remove(posId(pos));
 
         // Remove block from server
         HttpGet get = new HttpGet("http://localhost:12255/api/remove-block");

@@ -35,6 +35,8 @@ import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.ChunkStatus;
 import org.hydev.hyritone.Hyritone;
 
+import static org.hydev.hyritone.MiscUtils.posId;
+
 /**
  * Wraps get for chuck caching capability
  *
@@ -102,7 +104,7 @@ public class BlockStateInterface {
         // Hyritone: Replace the block with seed block
         if (Baritone.settings().mineWithSeed.value)
         {
-            String key = new BlockPos(x, y, z).toString();
+            String key = posId(new BlockPos(x, y, z));
             if (Hyritone.seedServerCache.blocksMap.containsKey(key))
             {
                 return Hyritone.seedServerCache.blocksMap.get(key);
