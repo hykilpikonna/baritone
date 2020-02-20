@@ -71,7 +71,7 @@ public class SeedServerCache extends Behavior
     public String blockToFind = "diamond_ore";
     public boolean updating = false;
 
-    public int ticks = 0;
+    public int ticks = 100;
 
     protected SeedServerCache(Baritone baritone)
     {
