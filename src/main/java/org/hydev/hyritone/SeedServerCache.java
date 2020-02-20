@@ -68,7 +68,7 @@ public class SeedServerCache extends Behavior
     public Map<String, BlockState> blocksMap = new HashMap<>();
 
     public boolean enabled = false;
-    public String blockToFind = "diamond_ores";
+    public String blockToFind = "diamond_ore";
     public boolean updating = false;
 
     public int ticks = 0;
@@ -112,7 +112,7 @@ public class SeedServerCache extends Behavior
         // Get request
         HttpGet get = new HttpGet("http://localhost:12255/api/get-locations-of");
         get.setHeader("world", "world");
-        get.setHeader("block", "diamond_ore");
+        get.setHeader("block", blockToFind);
         get.setHeader("maximum", "64");
         get.setHeader("center-x", "" + cacheLocation.getX());
         get.setHeader("center-y", "" + cacheLocation.getY());
