@@ -96,11 +96,16 @@ public class SeedServerCache extends Behavior
                 new Thread(this::loadChunks).start();
             }
         }
-
-        // Update cache
-        if (cacheLocation == null)
+        else
         {
-            new Thread(this::updateCache).start();
+            // Update cache every 5 seconds (5 * 20 = 100 ticks)
+            ticks ++;
+
+            if (ticks > 100)
+            {
+                ticks = 0;
+                new Thread(this::updateCache).start();
+            }
         }
     }
 
