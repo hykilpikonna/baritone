@@ -168,7 +168,7 @@ public class SeedServerCache extends Behavior
     public void onBlockBreak(BlockPos pos)
     {
         // Remove block from list
-        if (!cacheBlocks.removeIf(b -> b.equals(pos))) return;
+        if (!cacheBlocks.removeIf(b -> posId(b).equals(posId(pos)))) return;
 
         // Remove block from map
         blocksMap.remove(posId(pos));
@@ -182,9 +182,9 @@ public class SeedServerCache extends Behavior
 
         new Thread(() ->
         {
-            try
+            try (CloseableHttpResponse response = http.execute(get))
             {
-                http.execute(get);
+                System.out.println(IOUtils.toString(response.getEntity().getContent(), UTF_8));
             }
             catch (IOException e)
             {
