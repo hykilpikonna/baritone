@@ -125,14 +125,9 @@ public class SeedServerCache extends Behavior
             // Exited
             if (mc.world == null) return;
 
-            debug("Removing air...");
+            // Only add it if it is not air in the client world
+            cacheBlocks = blocks.stream().filter(b -> !mc.world.getBlockState(b).isAir()).collect(toList());
 
-            // Clear unwanted blocks
-            blocks.forEach(block ->
-            {
-                // Only add it if it is not air in the client world
-                cacheBlocks = blocks.stream().filter(b -> !mc.world.getBlockState(b).isAir()).collect(toList());
-            });
         }
         catch (IOException e)
         {
