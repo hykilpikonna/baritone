@@ -26,6 +26,8 @@ import baritone.behavior.Behavior;
 import baritone.utils.PathRenderer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -37,7 +39,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static baritone.api.utils.Helper.mc;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -60,7 +64,7 @@ public class SeedServerCache extends Behavior
 
     public BetterBlockPos cacheLocation;
     public List<BlockPos> cacheBlocks = new ArrayList<>();
-    private static final Type blocksType = new TypeToken<ArrayList<BlockPos>>(){}.getType();
+    public Map<String, BlockState> blocksMap = new HashMap<>();
 
     public boolean enabled = false;
     public String blockToFind = "diamond_ores";
@@ -128,6 +132,12 @@ public class SeedServerCache extends Behavior
             // Only add it if it is not air in the client world
             cacheBlocks = blocks.stream().filter(b -> !mc.world.getBlockState(b).isAir()).collect(toList());
 
+            // Update blocks map
+            Map<String, BlockState> map = new HashMap<>();
+            cacheBlocks.forEach(b -> map.put(b.toString(), Blocks.DIAMOND_ORE.getDefaultState()));
+            blocksMap = map;
+
+            debug("Found " + cacheBlocks.size() + " valid ores.");
         }
         catch (IOException e)
         {
