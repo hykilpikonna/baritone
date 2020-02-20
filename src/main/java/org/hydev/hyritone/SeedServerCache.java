@@ -122,15 +122,14 @@ public class SeedServerCache extends Behavior
         try (CloseableHttpResponse response = http.execute(get))
         {
             ArrayList<BlockPos> blocks = new Gson().fromJson(IOUtils.toString(response.getEntity().getContent(), UTF_8), blocksType);
+            // Exited
+            if (mc.world == null) return;
 
             debug("Removing air...");
 
             // Clear unwanted blocks
             blocks.forEach(block ->
             {
-                // Exited
-                if (mc.world == null) return;
-
                 // Only add it if it is not air in the client world
                 cacheBlocks = blocks.stream().filter(b -> !mc.world.getBlockState(b).isAir()).collect(toList());
             });
