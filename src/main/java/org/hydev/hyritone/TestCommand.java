@@ -23,7 +23,9 @@ import baritone.api.command.Command;
 import baritone.api.command.argument.IArgConsumer;
 import baritone.api.command.exception.CommandException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -56,6 +58,14 @@ public class TestCommand extends Command
         else
         {
             print("Seed xray disabled");
+
+            // Reset status
+            seedServerCache.ticks = 100;
+            seedServerCache.enabled = false;
+            seedServerCache.blocksMap = new HashMap<>();
+            seedServerCache.cacheLocation = null;
+            seedServerCache.cacheBlocks = new ArrayList<>();
+            seedServerCache.updating = false;
         }
     }
 
