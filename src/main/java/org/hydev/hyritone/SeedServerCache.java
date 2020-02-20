@@ -135,16 +135,16 @@ public class SeedServerCache extends Behavior
         // Prevent duplicate calls to update
         updating = true;
 
-        BetterBlockPos feet = new BetterBlockPos(mc.player.getPositionVec().x, mc.player.getPositionVec().y + 0.1251, mc.player.getPositionVec().z);
+        cacheLocation = new BetterBlockPos(mc.player.getPositionVec().x, mc.player.getPositionVec().y + 0.1251, mc.player.getPositionVec().z);
 
         // Get request
         HttpGet get = new HttpGet("http://localhost:12255/api/get-locations-of");
         get.setHeader("world", "world");
         get.setHeader("block", "diamond_ore");
         get.setHeader("maximum", "64");
-        get.setHeader("center-x", "" + feet.getX());
-        get.setHeader("center-y", "" + feet.getY());
-        get.setHeader("center-z", "" + feet.getZ());
+        get.setHeader("center-x", "" + cacheLocation.getX());
+        get.setHeader("center-y", "" + cacheLocation.getY());
+        get.setHeader("center-z", "" + cacheLocation.getZ());
         get.setHeader("max-search-rad", "64");
         get.setHeader("y-min", "3");
         get.setHeader("y-max", "16");
