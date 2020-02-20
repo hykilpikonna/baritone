@@ -162,7 +162,7 @@ public class SeedServerCache extends Behavior
     public void onBlockBreak(BlockPos pos)
     {
         // Remove block from list
-        cacheBlocks.removeIf(b -> b.equals(pos));
+        if (!cacheBlocks.removeIf(b -> b.equals(pos))) return;
 
         // Remove block from server
         HttpGet get = new HttpGet("http://localhost:12255/api/remove-block");
