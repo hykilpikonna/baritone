@@ -24,8 +24,9 @@ import baritone.api.utils.BetterBlockPos;
 import baritone.api.utils.Helper;
 import baritone.behavior.Behavior;
 import baritone.utils.PathRenderer;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -37,7 +38,6 @@ import org.apache.http.impl.client.HttpClients;
 
 import java.awt.*;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -125,9 +125,16 @@ public class SeedServerCache extends Behavior
 
         try (CloseableHttpResponse response = http.execute(get))
         {
-            ArrayList<BlockPos> blocks = new Gson().fromJson(IOUtils.toString(response.getEntity().getContent(), UTF_8), blocksType);
             // Exited
             if (mc.world == null) return;
+
+            ArrayList<BlockPos> blocks = new ArrayList<>();
+            JsonArray array = new JsonParser().parse(IOUtils.toString(response.getEntity().getContent(), UTF_8)).getAsJsonArray();
+            array.forEach(j ->
+            {
+                JsonObject obj = j.getAsJsonObject();
+                blocks.add(new BlockPos(obj.get("x").getAsInt(), obj.get("y").getAsInt(), obj.get("z").getAsInt()));
+            });
 
             // Only add it if it is not air in the client world
             cacheBlocks = blocks.stream().filter(b -> !mc.world.getBlockState(b).isAir()).collect(toList());
