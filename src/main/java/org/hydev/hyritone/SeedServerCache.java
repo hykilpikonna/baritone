@@ -151,8 +151,6 @@ public class SeedServerCache extends Behavior
             e.printStackTrace();
         }
 
-        debug("Block data obtained.");
-
         updating = false;
     }
 
