@@ -179,13 +179,16 @@ public class SeedServerCache extends Behavior
         get.setHeader("y", "" + pos.getY());
         get.setHeader("z", "" + pos.getZ());
 
-        try
+        new Thread(() ->
         {
-            http.execute(get);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+            try
+            {
+                http.execute(get);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }
