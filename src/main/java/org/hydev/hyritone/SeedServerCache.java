@@ -171,13 +171,16 @@ public class SeedServerCache extends Behavior
         // Remove block from list
         if (!cacheBlocks.removeIf(b -> b.equals(pos))) return;
 
+        // Remove block from map
+        blocksMap.remove(pos.toString());
+
         // Remove block from server
         HttpGet get = new HttpGet("http://localhost:12255/api/remove-block");
         get.setHeader("world", "world");
         get.setHeader("x", "" + pos.getX());
         get.setHeader("y", "" + pos.getY());
         get.setHeader("z", "" + pos.getZ());
-        
+
         try
         {
             http.execute(get);
