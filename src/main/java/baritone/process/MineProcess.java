@@ -363,6 +363,7 @@ public final class MineProcess extends BaritoneProcessHelper implements IMinePro
         {
             // Add seed ores
             locs.addAll(Hyritone.seedServerCache.cacheBlocks);
+            locs = prune(ctx, locs, filter, max, blacklist, dropped);
         }
 
         return locs;
@@ -406,7 +407,7 @@ public final class MineProcess extends BaritoneProcessHelper implements IMinePro
                 .distinct()
 
                 // remove any that are within loaded chunks that aren't actually what we want
-                .filter(pos -> !ctx.bsi.worldContainsLoadedChunk(pos.getX(), pos.getZ()) || filter.has(ctx.get(pos.getX(), pos.getY(), pos.getZ())) || dropped.contains(pos))
+                .filter(pos -> settings().mineWithSeed.value || !ctx.bsi.worldContainsLoadedChunk(pos.getX(), pos.getZ()) || filter.has(ctx.get(pos.getX(), pos.getY(), pos.getZ())) || dropped.contains(pos))
 
                 // remove any that are implausible to mine (encased in bedrock, or touching lava)
                 .filter(pos -> MineProcess.plausibleToBreak(ctx, pos))
