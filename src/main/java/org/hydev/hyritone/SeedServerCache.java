@@ -81,6 +81,7 @@ public class SeedServerCache extends Behavior
     @Override
     public void onTick(TickEvent event)
     {
+        if (mc.player == null) return;
         if (updating) return;
 
         // If not enabled, preload the chunks
