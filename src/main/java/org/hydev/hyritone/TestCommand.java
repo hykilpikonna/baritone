@@ -17,6 +17,7 @@
 
 package org.hydev.hyritone;
 
+import baritone.Baritone;
 import baritone.api.IBaritone;
 import baritone.api.command.Command;
 import baritone.api.command.argument.IArgConsumer;
@@ -26,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static org.hydev.hyritone.Hyritone.seedServerCache;
 import static org.hydev.hyritone.MiscUtils.print;
 
 /**
@@ -47,7 +49,7 @@ public class TestCommand extends Command
     @Override
     public void execute(String label, IArgConsumer args) throws CommandException
     {
-        if (Hyritone.seedServerCache.enabled = !Hyritone.seedServerCache.enabled)
+        if (Baritone.settings().mineWithSeed.value = seedServerCache.enabled = !seedServerCache.enabled)
         {
             print("Seed xray enabled");
         }
