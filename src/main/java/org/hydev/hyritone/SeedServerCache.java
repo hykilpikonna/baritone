@@ -82,54 +82,15 @@ public class SeedServerCache extends Behavior
     public void onTick(TickEvent event)
     {
         if (mc.player == null) return;
-        if (updating) return;
+        if (updating || !enabled) return;
 
-        // If not enabled, preload the chunks
-        if (!enabled)
+        // Update cache every 5 seconds (5 * 20 = 100 ticks)
+        ticks ++;
+
+        if (ticks > 100)
         {
-            // Tell the server to load chunks every 20 seconds (20 * 20 = 400 ticks)
-            ticks ++;
-
-            if (ticks > 400)
-            {
-                ticks = 0;
-                new Thread(this::loadChunks).start();
-            }
-        }
-        else
-        {
-            // Update cache every 5 seconds (5 * 20 = 100 ticks)
-            ticks ++;
-
-            if (ticks > 100)
-            {
-                ticks = 0;
-                new Thread(this::updateCache).start();
-            }
-        }
-    }
-
-    /**
-     * Tell the server to pre-load the chunks
-     */
-    public void loadChunks()
-    {
-        BetterBlockPos feet = new BetterBlockPos(mc.player.getPositionVec().x, mc.player.getPositionVec().y + 0.1251, mc.player.getPositionVec().z);
-
-        // Get request
-        HttpGet get = new HttpGet("http://localhost:12255/api/load-chunks");
-        get.setHeader("world", "world");
-        get.setHeader("center-x", "" + feet.getX());
-        get.setHeader("center-z", "" + feet.getZ());
-        get.setHeader("max-search-rad", "64");
-
-        try (CloseableHttpResponse response = http.execute(get))
-        {
-            debug("Telling seed exploit server to load chunk...");
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
+            ticks = 0;
+            new Thread(this::updateCache).start();
         }
     }
 
