@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.hydev.hyritone.Hyritone.seedServerCache;
-import static org.hydev.hyritone.util.MiscUtils.print;
+import static org.hydev.hyritone.utils.MiscUtils.print;
 
 /**
  * TODO: Write a description for this class!

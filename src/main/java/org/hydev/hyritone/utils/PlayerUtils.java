@@ -1,4 +1,4 @@
-package org.hydev.hyritone.util;
+package org.hydev.hyritone.utils;
 
 import baritone.api.utils.Helper;
 import baritone.api.utils.Rotation;

@@ -15,7 +15,7 @@
  * along with Baritone.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.hydev.hyritone.util;
+package org.hydev.hyritone.utils;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;

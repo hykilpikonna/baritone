@@ -46,8 +46,8 @@ import java.util.Map;
 import static baritone.api.utils.Helper.mc;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
-import static org.hydev.hyritone.util.MiscUtils.debug;
-import static org.hydev.hyritone.util.MiscUtils.posId;
+import static org.hydev.hyritone.utils.MiscUtils.debug;
+import static org.hydev.hyritone.utils.MiscUtils.posId;
 
 /**
  * TODO: Write a description for this class!
