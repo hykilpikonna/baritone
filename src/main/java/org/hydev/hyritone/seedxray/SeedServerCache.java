@@ -73,7 +73,7 @@ public class SeedServerCache extends Behavior
 
     public int ticks = 100;
 
-    protected SeedServerCache(Baritone baritone)
+    public SeedServerCache(Baritone baritone)
     {
         super(baritone);
     }
