@@ -79,4 +79,70 @@ public class PlayerUtils
         player().rotationYaw = rotation.getYaw();
         player().rotationPitch = rotation.getPitch();
     }
+
+    /**
+     * Rotate to face one block
+     *
+     * @param pos Block position
+     * @return Direction
+     * @author Wurst7 https://github.com/Wurst-Imperium/Wurst7
+     */
+    public static Direction rotateToBlock(BlockPos pos)
+    {
+        Direction side = null;
+        Direction[] sides = Direction.values();
+
+        Vec3d eyesPos = getEyesPos();
+        Vec3d relCenter = world().getBlockState(pos).getShape(world(), pos).getBoundingBox().getCenter();
+        Vec3d center = new Vec3d(pos).add(relCenter);
+
+        Vec3d[] hitVecs = new Vec3d[sides.length];
+        for (int i = 0; i < sides.length; i++)
+        {
+            Vec3i dirVec = sides[i].getDirectionVec();
+            Vec3d relHitVec = new Vec3d(relCenter.x * dirVec.getX(),
+                relCenter.y * dirVec.getY(), relCenter.z * dirVec.getZ());
+            hitVecs[i] = center.add(relHitVec);
+        }
+
+        BlockState state = world().getBlockState(pos);
+        for (int i = 0; i < sides.length; i++)
+        {
+            // check line of sight
+            if (world().rayTraceBlocks(eyesPos, hitVecs[i], pos, state.getShape(world(), pos), state) != null)
+            {
+                continue;
+            }
+
+            side = sides[i];
+            break;
+        }
+
+        if (side == null)
+        {
+            double distanceSqToCenter = eyesPos.squareDistanceTo(center);
+            for (int i = 0; i < sides.length; i++)
+            {
+                // check if side is facing towards player
+                if (eyesPos.squareDistanceTo(hitVecs[i]) >= distanceSqToCenter)
+                {
+                    continue;
+                }
+
+                side = sides[i];
+                break;
+            }
+        }
+
+        // player is inside of block, side doesn't matter
+        if (side == null)
+        {
+            side = sides[0];
+        }
+
+        // Rotate
+        rotate(getNeededRotations(hitVecs[side.ordinal()]));
+
+        return side;
+    }
 }
