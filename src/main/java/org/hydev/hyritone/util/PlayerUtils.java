@@ -45,4 +45,27 @@ public class PlayerUtils
             player().getPosY() + player().getEyeHeight(player().getPose()),
             player().getPosZ());
     }
+
+    /**
+     * Get what does it take to rotate to a direction
+     *
+     * @param vec Final direction
+     * @return Rotation required
+     * @author Wurst7 https://github.com/Wurst-Imperium/Wurst7
+     */
+    public static Rotation getNeededRotations(Vec3d vec)
+    {
+        Vec3d eyesPos = getEyesPos();
+
+        double diffX = vec.x - eyesPos.x;
+        double diffY = vec.y - eyesPos.y;
+        double diffZ = vec.z - eyesPos.z;
+
+        double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
+
+        float yaw = (float)Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
+        float pitch = (float)-Math.toDegrees(Math.atan2(diffY, diffXZ));
+
+        return new Rotation(yaw, pitch);
+    }
 }
