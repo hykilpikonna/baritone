@@ -68,4 +68,15 @@ public class PlayerUtils
 
         return new Rotation(yaw, pitch);
     }
+
+    /**
+     * Rotate
+     *
+     * @param rotation Relative rotation
+     */
+    public static void rotate(Rotation rotation)
+    {
+        player().rotationYaw = rotation.getYaw();
+        player().rotationPitch = rotation.getPitch();
+    }
 }
