@@ -1,10 +1,10 @@
 package org.hydev.hyritone.task;
 
+import com.google.gson.Gson;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
-import org.hydev.hyritone.Main;
 
-import javax.script.ScriptException;
+import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.hydev.hyritone.utils.ScriptUtils.getEngine;
+import static baritone.api.utils.Helper.mc;
 
 /**
  * This class contains preset tasks
@@ -63,35 +63,32 @@ public class TaskPresets
     @SneakyThrows
     public static void reloadPresets()
     {
-        Path scriptDirPath = Main.taskPresetsDir.toPath();
+        Path filePath = new File(mc.gameDir, "./Hyritone/").toPath();
+        Files.createDirectories(filePath);
 
         presets.clear();
 
         try
         {
-            Files.walk(scriptDirPath, FileVisitOption.FOLLOW_LINKS)
+            Files.walk(filePath, FileVisitOption.FOLLOW_LINKS)
                 .filter(Files::isRegularFile)
                 .forEach(path ->
                 {
                     try
                     {
-                        String script = FileUtils.readFileToString(path.toFile(), StandardCharsets.UTF_8);
-                        TaskList list = (TaskList) getEngine().eval(script);
+                        String json = FileUtils.readFileToString(path.toFile(), StandardCharsets.UTF_8);
+                        TaskList list = new Gson().fromJson(json, TaskList.class);
                         presets.put(list.name.toLowerCase(), list);
                     }
                     catch (IOException e)
                     {
                         throw new UncheckedIOException(e);
                     }
-                    catch (ScriptException e)
-                    {
-                        e.printStackTrace();
-                    }
                 });
         }
         catch (IOException | UncheckedIOException e)
         {
-            System.err.println("Error when loading hyritone scripts.");
+            System.err.println("Error when loading hyritone json.");
             e.printStackTrace();
         }
     }
