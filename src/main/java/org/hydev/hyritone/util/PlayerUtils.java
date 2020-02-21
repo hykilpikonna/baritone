@@ -30,4 +30,19 @@ public class PlayerUtils
     public static ClientWorld world() { return Helper.mc.world; }
     public static IMouse mouse() { return (IMouse) Helper.mc.mouseHelper; }
     public static PlayerController controller() { return Helper.mc.playerController; }
+
+    /**
+     * Get player's eye vector
+     *
+     * @return Eye vector
+     * @author Wurst7 https://github.com/Wurst-Imperium/Wurst7
+     */
+    public static Vec3d getEyesPos()
+    {
+        assert player() != null;
+
+        return new Vec3d(player().getPosX(),
+            player().getPosY() + player().getEyeHeight(player().getPose()),
+            player().getPosZ());
+    }
 }
