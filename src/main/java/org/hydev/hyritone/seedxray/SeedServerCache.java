@@ -15,7 +15,7 @@
  * along with Baritone.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.hydev.hyritone;
+package org.hydev.hyritone.seedxray;
 
 import baritone.Baritone;
 import baritone.api.event.events.RenderEvent;
@@ -46,8 +46,8 @@ import java.util.Map;
 import static baritone.api.utils.Helper.mc;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
-import static org.hydev.hyritone.MiscUtils.debug;
-import static org.hydev.hyritone.MiscUtils.posId;
+import static org.hydev.hyritone.util.MiscUtils.debug;
+import static org.hydev.hyritone.util.MiscUtils.posId;
 
 /**
  * TODO: Write a description for this class!

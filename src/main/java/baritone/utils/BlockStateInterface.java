@@ -35,7 +35,7 @@ import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.ChunkStatus;
 import org.hydev.hyritone.Hyritone;
 
-import static org.hydev.hyritone.MiscUtils.posId;
+import static org.hydev.hyritone.util.MiscUtils.posId;
 
 /**
  * Wraps get for chuck caching capability

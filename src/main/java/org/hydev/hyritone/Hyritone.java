@@ -18,6 +18,7 @@
 package org.hydev.hyritone;
 
 import baritone.Baritone;
+import org.hydev.hyritone.seedxray.SeedServerCache;
 
 /**
  * TODO: Write a description for this class!

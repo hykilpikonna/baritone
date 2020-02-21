@@ -19,7 +19,7 @@ package baritone.command.defaults;
 
 import baritone.api.IBaritone;
 import baritone.api.command.ICommand;
-import org.hydev.hyritone.TestCommand;
+import org.hydev.hyritone.seedxray.SeedXrayCommand;
 
 import java.util.*;
 
@@ -68,7 +68,7 @@ public final class DefaultCommands {
                 new SelCommand(baritone),
 
                 // Hyritone
-                new TestCommand(baritone)
+                new SeedXrayCommand(baritone)
         ));
         ExecutionControlCommands prc = new ExecutionControlCommands(baritone);
         commands.add(prc.pauseCommand);

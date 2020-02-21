@@ -15,7 +15,7 @@
  * along with Baritone.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.hydev.hyritone;
+package org.hydev.hyritone.seedxray;
 
 import baritone.Baritone;
 import baritone.api.IBaritone;
@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.hydev.hyritone.Hyritone.seedServerCache;
-import static org.hydev.hyritone.MiscUtils.print;
+import static org.hydev.hyritone.util.MiscUtils.print;
 
 /**
  * TODO: Write a description for this class!
@@ -42,9 +42,9 @@ import static org.hydev.hyritone.MiscUtils.print;
  * @author Vanilla (https://github.com/VergeDX)
  * @since 2020-02-19 12:29
  */
-public class TestCommand extends Command
+public class SeedXrayCommand extends Command
 {
-    public TestCommand(IBaritone baritone) {
+    public SeedXrayCommand(IBaritone baritone) {
         super(baritone, "seedxray");
     }
 
