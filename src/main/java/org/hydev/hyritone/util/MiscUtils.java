@@ -57,4 +57,21 @@ public class MiscUtils
     {
         return String.format("[%s,%s,%s]", pos.getX(), pos.getY(), pos.getZ());
     }
+
+    /**
+     * Sleep without exceptions
+     *
+     * @param ms Time in ms
+     */
+    public static void sleep(long ms)
+    {
+        try
+        {
+            Thread.sleep(ms);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
