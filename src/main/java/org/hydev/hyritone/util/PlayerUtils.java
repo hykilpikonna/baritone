@@ -145,4 +145,58 @@ public class PlayerUtils
 
         return side;
     }
+
+    /**
+     * Interact
+     *
+     * @param pos Block
+     */
+    public static void interact(BlockPos pos)
+    {
+        rotateToBlock(pos);
+        mouse().rightClick();
+    }
+
+    /**
+     * Dig the block at direction
+     *
+     * @param pos Block position
+     * @param side Direction
+     * @return Dig success or not
+     * @author Wurst7 https://github.com/Wurst-Imperium/Wurst7
+     */
+    public static boolean dig(BlockPos pos, Direction side)
+    {
+        // damage block
+        if (!controller().onPlayerDamageBlock(pos, side))
+        {
+            return false;
+        }
+
+        // swing arm
+        player().connection.sendPacket(new CAnimateHandPacket(Hand.MAIN_HAND));
+
+        return true;
+    }
+
+    /**
+     * Dig the block at direction
+     *
+     * @param pos Block position
+     * @return Dig success or not
+     */
+    public static boolean dig(BlockPos pos)
+    {
+        return dig(pos, rotateToBlock(pos));
+    }
+
+    /**
+     * Delay between swapping items from inv to chest.
+     *
+     * @return Delay between 80 to 120
+     */
+    public static int chestDelay()
+    {
+        return (int) (80 + Math.random() * 40);
+    }
 }
