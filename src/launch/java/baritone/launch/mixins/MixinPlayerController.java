@@ -17,15 +17,27 @@
 
 package baritone.launch.mixins;
 
+import baritone.api.BaritoneAPI;
+import baritone.api.IBaritone;
 import baritone.utils.accessor.IPlayerControllerMP;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerController;
 import net.minecraft.util.math.BlockPos;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerController.class)
 public abstract class MixinPlayerController implements IPlayerControllerMP {
+
+    @Shadow
+    @Final
+    private Minecraft mc;
 
     @Accessor
     @Override
@@ -38,4 +50,20 @@ public abstract class MixinPlayerController implements IPlayerControllerMP {
     @Invoker
     @Override
     public abstract void callSyncCurrentPlayItem();
+
+    @Inject(
+        method = "onPlayerDestroyBlock",
+        at = @At(value = "TAIL")
+    )
+    public void onPlayerDestroyBlock(BlockPos pos, CallbackInfoReturnable<Boolean> cir)
+    {
+        // Check if the block is broken
+        if (!cir.getReturnValue()) return;
+
+        // Call event
+        IBaritone baritone = BaritoneAPI.getProvider().getBaritoneForPlayer(this.mc.player);
+        if (baritone != null) {
+            baritone.getGameEventHandler().onBlockBreak(pos);
+        }
+    }
 }

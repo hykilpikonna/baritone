@@ -18,6 +18,7 @@
 package baritone.api.event.listener;
 
 import baritone.api.event.events.*;
+import net.minecraft.util.math.BlockPos;
 
 /**
  * An implementation of {@link IGameEventListener} that has all methods
@@ -71,4 +72,7 @@ public interface AbstractGameEventListener extends IGameEventListener {
 
     @Override
     default void onPathEvent(PathEvent event) {}
+
+    @Override
+    default void onBlockBreak(BlockPos pos) {}
 }

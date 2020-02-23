@@ -33,6 +33,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.ChunkStatus;
+import org.hydev.hyritone.Hyritone;
+
+import static org.hydev.hyritone.utils.MiscUtils.posId;
 
 /**
  * Wraps get for chuck caching capability
@@ -101,6 +104,16 @@ public class BlockStateInterface {
         // Invalid vertical position
         if (y < 0 || y >= 256) {
             return AIR;
+        }
+
+        // Hyritone: Replace the block with seed block
+        if (Baritone.settings().mineWithSeed.value)
+        {
+            String key = posId(new BlockPos(x, y, z));
+            if (Hyritone.seedServerCache.blocksMap.containsKey(key))
+            {
+                return Hyritone.seedServerCache.blocksMap.get(key);
+            }
         }
 
         if (useTheRealWorld) {

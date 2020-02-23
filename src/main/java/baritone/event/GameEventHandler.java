@@ -25,6 +25,7 @@ import baritone.api.event.listener.IGameEventListener;
 import baritone.api.utils.Helper;
 import baritone.cache.WorldProvider;
 import baritone.utils.BlockStateInterface;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
@@ -160,5 +161,10 @@ public final class GameEventHandler implements IEventBus, Helper {
     @Override
     public final void registerEventListener(IGameEventListener listener) {
         this.listeners.add(listener);
+    }
+
+    public final void onBlockBreak(BlockPos blockPos)
+    {
+        listeners.forEach(l -> l.onBlockBreak(blockPos));
     }
 }

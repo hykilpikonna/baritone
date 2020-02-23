@@ -20,10 +20,10 @@ package baritone.api.event.listener;
 import baritone.api.event.events.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.gui.screen.DeathScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.BlockPos;
 
 /**
  * @author Brady
@@ -137,4 +137,11 @@ public interface IGameEventListener {
      * @param event The event
      */
     void onPathEvent(PathEvent event);
+
+    /**
+     * This is called when the player breaks blocks.
+     *
+     * @param pos Block position
+     */
+    void onBlockBreak(BlockPos pos);
 }

@@ -36,6 +36,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import org.hydev.hyritone.Hyritone;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -319,39 +320,53 @@ public final class MineProcess extends BaritoneProcessHelper implements IMinePro
     public static List<BlockPos> searchWorld(CalculationContext ctx, BlockOptionalMetaLookup filter, int max, List<BlockPos> alreadyKnown, List<BlockPos> blacklist, List<BlockPos> dropped) {
         List<BlockPos> locs = new ArrayList<>();
         List<Block> untracked = new ArrayList<>();
-        for (BlockOptionalMeta bom : filter.blocks()) {
-            Block block = bom.getBlock();
-            if (CachedChunk.BLOCKS_TO_KEEP_TRACK_OF.contains(block)) {
-                BetterBlockPos pf = ctx.baritone.getPlayerContext().playerFeet();
 
-                // maxRegionDistanceSq 2 means adjacent directly or adjacent diagonally; nothing further than that
-                locs.addAll(ctx.worldData.getCachedWorld().getLocationsOf(
+        // Check mine with seed
+        if (!Baritone.settings().mineWithSeed.value)
+        {
+            // Search the actual world
+            for (BlockOptionalMeta bom : filter.blocks()) {
+                Block block = bom.getBlock();
+                if (CachedChunk.BLOCKS_TO_KEEP_TRACK_OF.contains(block)) {
+                    BetterBlockPos pf = ctx.baritone.getPlayerContext().playerFeet();
+
+                    // maxRegionDistanceSq 2 means adjacent directly or adjacent diagonally; nothing further than that
+                    locs.addAll(ctx.worldData.getCachedWorld().getLocationsOf(
                         BlockUtils.blockToString(block),
                         Baritone.settings().maxCachedWorldScanCount.value,
                         pf.x,
                         pf.z,
                         2
-                ));
-            } else {
-                untracked.add(block);
+                    ));
+                } else {
+                    untracked.add(block);
+                }
             }
-        }
 
-        locs = prune(ctx, locs, filter, max, blacklist, dropped);
+            locs = prune(ctx, locs, filter, max, blacklist, dropped);
 
-        if (!untracked.isEmpty() || (Baritone.settings().extendCacheOnThreshold.value && locs.size() < max)) {
-            locs.addAll(WorldScanner.INSTANCE.scanChunkRadius(
+            if (!untracked.isEmpty() || (Baritone.settings().extendCacheOnThreshold.value && locs.size() < max)) {
+                locs.addAll(WorldScanner.INSTANCE.scanChunkRadius(
                     ctx.getBaritone().getPlayerContext(),
                     filter,
                     max,
                     10,
                     32
-            )); // maxSearchRadius is NOT sq
+                )); // maxSearchRadius is NOT sq
+            }
+
+            locs.addAll(alreadyKnown);
+
+            return prune(ctx, locs, filter, max, blacklist, dropped);
+        }
+        else
+        {
+            // Add seed ores
+            locs.addAll(Hyritone.seedServerCache.cacheBlocks);
+            locs = prune(ctx, locs, filter, max, blacklist, dropped);
         }
 
-        locs.addAll(alreadyKnown);
-
-        return prune(ctx, locs, filter, max, blacklist, dropped);
+        return locs;
     }
 
     private void addNearby() {
@@ -392,7 +407,10 @@ public final class MineProcess extends BaritoneProcessHelper implements IMinePro
                 .distinct()
 
                 // remove any that are within loaded chunks that aren't actually what we want
-                .filter(pos -> !ctx.bsi.worldContainsLoadedChunk(pos.getX(), pos.getZ()) || filter.has(ctx.get(pos.getX(), pos.getY(), pos.getZ())) || dropped.contains(pos))
+                .filter(pos -> Baritone.settings().mineWithSeed.value || !ctx.bsi.worldContainsLoadedChunk(pos.getX(), pos.getZ()) || filter.has(ctx.get(pos.getX(), pos.getY(), pos.getZ())) || dropped.contains(pos))
+
+                // Hyritone: remove air
+                .filter(pos -> !Baritone.settings().mineWithSeed.value || !ctx.get(pos).isAir() || dropped.contains(pos))
 
                 // remove any that are implausible to mine (encased in bedrock, or touching lava)
                 .filter(pos -> MineProcess.plausibleToBreak(ctx, pos))
@@ -425,11 +443,15 @@ public final class MineProcess extends BaritoneProcessHelper implements IMinePro
     @Override
     public void mine(int quantity, BlockOptionalMetaLookup filter) {
         this.filter = filter;
-        if (filter != null && !Baritone.settings().allowBreak.value) {
+
+        // Hyritone start - #1: Users are not idiots, if they disabled allow break, it's not for mining.
+        /*if (filter != null && !settings().allowBreak.value) {
             logDirect("Unable to mine when allowBreak is false!");
             this.mine(quantity, (BlockOptionalMetaLookup) null);
             return;
-        }
+        }*/
+        // Hyritone end
+
         this.desiredQuantity = quantity;
         this.knownOreLocations = new ArrayList<>();
         this.blacklist = new ArrayList<>();

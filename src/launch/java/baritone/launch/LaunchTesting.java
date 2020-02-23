@@ -57,6 +57,9 @@ public class LaunchTesting {
             attemptLogin(arguments, System.getenv("username"), System.getenv("password"));
         }
 
+        // Unify username
+        arguments.put("username", "TestUser");
+
         List<String> argsArray = new ArrayList<>();
         arguments.forEach((k, v) -> {
             argsArray.add("--" + k);
