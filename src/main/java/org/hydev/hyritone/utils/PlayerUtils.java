@@ -44,9 +44,9 @@ public class PlayerUtils
     {
         assert player() != null;
 
-        return new Vec3d(player().getPosX(),
-            player().getPosY() + player().getEyeHeight(player().getPose()),
-            player().getPosZ());
+        return new Vec3d(player().getPositionVec().x,
+            player().getPositionVec().y + player().getEyeHeight(player().getPose()),
+            player().getPositionVec().z);
     }
 
     /**
@@ -111,11 +111,11 @@ public class PlayerUtils
         BlockState state = world().getBlockState(pos);
         for (int i = 0; i < sides.length; i++)
         {
-            // check line of sight
-            if (world().rayTraceBlocks(eyesPos, hitVecs[i], pos, state.getShape(world(), pos), state) != null)
+            // check line of sight TODO
+            /*if (world().rayTraceBlocks(new RayTraceContext(eyesPos, hitVecs[i], pos, state.getShape(world(), pos), state)) != null)
             {
                 continue;
-            }
+            }*/
 
             side = sides[i];
             break;

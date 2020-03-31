@@ -76,24 +76,24 @@ public abstract class MixinMouse implements IMouse
     @Override
     public void rightHold()
     {
-        mouseButtonCallback(minecraft.getMainWindow().getHandle(), 1, 1, 0);
+        mouseButtonCallback(minecraft.mainWindow.getHandle(), 1, 1, 0);
     }
 
     @Override
     public void rightRelease()
     {
-        mouseButtonCallback(minecraft.getMainWindow().getHandle(), 1, 0, 0);
+        mouseButtonCallback(minecraft.mainWindow.getHandle(), 1, 0, 0);
     }
 
     @Override
     public void leftHold()
     {
-        mouseButtonCallback(minecraft.getMainWindow().getHandle(), 0, 1, 0);
+        mouseButtonCallback(minecraft.mainWindow.getHandle(), 0, 1, 0);
     }
 
     @Override
     public void leftRelease()
     {
-        mouseButtonCallback(minecraft.getMainWindow().getHandle(), 0, 0, 0);
+        mouseButtonCallback(minecraft.mainWindow.getHandle(), 0, 0, 0);
     }
 }
